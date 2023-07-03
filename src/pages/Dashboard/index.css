@@ -10,3 +10,9 @@
     border-bottom: 1px solid;
     padding-bottom: 5px;
 }
+
+.cotizaciones {
+    font-size: 17px;
+    font-weight: bold;
+    padding: 7px;
+}

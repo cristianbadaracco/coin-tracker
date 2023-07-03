@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>COTIZACIONES (USD)</h1>
+      <div className="cotizaciones">COTIZACIONES (USD)</div>
       {btcPrice ? (
         <>
           <div className="flex-row justify-between">
