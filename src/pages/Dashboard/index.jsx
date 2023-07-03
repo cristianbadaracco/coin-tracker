@@ -28,7 +28,9 @@ const Dashboard = () => {
       <h1>COTIZACIONES (USD)</h1>
       {btcPrice ? (
         <>
-          <h2>BTC</h2>
+          <div className="flex-row justify-between">
+            <div className="title">BTC</div>
+          </div>
           <div className="list">
             <PriceCard name="Binance BTC" value={btcPrice} />
           </div>
@@ -38,7 +40,9 @@ const Dashboard = () => {
       )}
       {dolarPrices.length ? (
         <>
-          <h2>USDT</h2>
+          <div className="flex-row justify-between">
+            <div className="title">USDT</div>
+          </div>
           <div className="list">
             {criptoPrices.map(({ name, value }, index) => (
               <PriceCard key={index} name={name} value={value} />
@@ -51,7 +55,7 @@ const Dashboard = () => {
       {criptoPrices.length ? (
         <>
           <div className="flex-row justify-between">
-            <h2>DOLAR</h2>
+            <div className="title">DOLAR</div>
           </div>
           <div className="list">
             {dolarPrices.map(({ name, value }, index) => (

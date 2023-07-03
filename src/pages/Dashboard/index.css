@@ -2,3 +2,11 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 7px;
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+}
