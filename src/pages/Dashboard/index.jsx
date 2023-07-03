@@ -30,7 +30,7 @@ const Dashboard = () => {
         <>
           <h2>BTC</h2>
           <div className="list">
-            <PriceCard name="Binance BTC" value={`$${btcPrice}`} />
+            <PriceCard name="Binance BTC" value={btcPrice} />
           </div>
         </>
       ) : (
@@ -41,7 +41,7 @@ const Dashboard = () => {
           <h2>USDT</h2>
           <div className="list">
             {criptoPrices.map(({ name, value }, index) => (
-              <PriceCard key={index} name={name} value={`$${value}`} />
+              <PriceCard key={index} name={name} value={value} />
             ))}
           </div>
         </>
@@ -55,11 +55,7 @@ const Dashboard = () => {
           </div>
           <div className="list">
             {dolarPrices.map(({ name, value }, index) => (
-              <PriceCard
-                key={index}
-                name={`dólar ${name}`}
-                value={`$${value}`}
-              />
+              <PriceCard key={index} name={`dólar ${name}`} value={value} />
             ))}
           </div>
         </>
