@@ -4,12 +4,8 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const manifestForPlugin = {
   registerType: "promp",
+  includeAssets: ["favicon.ico"],
   manifest: {
-    theme_color: "#f69435",
-    background_color: "#f69435",
-    display: "fullscreen",
-    scope: "/",
-    start_url: "/",
     name: "Coin Tracker",
     short_name: "coin-tracker",
     description: "",
@@ -35,6 +31,12 @@ const manifestForPlugin = {
         type: "image/png",
       },
     ],
+    theme_color: "#f69435",
+    background_color: "#f69435",
+    display: "standalone",
+    scope: "/",
+    start_url: "/",
+    orientation: "portrait",
   },
 };
 
