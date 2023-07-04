@@ -1,27 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
-
 import PriceCard from "../../components/PriceCard";
 
 import {
-  fetchCriptoPrices,
-  fetchDolarPrices,
-  fetchBtcPrice,
-} from "../../services/fetchData";
+  formatBtcPrice,
+  formatDolarPrices,
+  formatCriptoPrices,
+} from "../../functions";
+
+import { useFetch } from "../../hooks/useFetch";
 
 import "./index.css";
-import "../../index.css";
 
 const Dashboard = () => {
-  const [dolarPrices, setDolarPrices] = useState([]);
-  const [criptoPrices, setCriptoPrices] = useState([]);
-  const [btcPrice, setBtcPrice] = useState(null);
-
-  useEffect(() => {
-    fetchDolarPrices().then((dolarPrices) => setDolarPrices(dolarPrices));
-    fetchCriptoPrices().then((criptoPrices) => setCriptoPrices(criptoPrices));
-    fetchBtcPrice().then((btcPrice) => setBtcPrice(btcPrice));
-  }, []);
+  const { data: btcPrice } = useFetch(
+    "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT"
+  );
+  const { data: dolarPrices, loading: dolarLoading } = useFetch(
+    "https://criptoya.com/api/dolar",
+    formatDolarPrices
+  );
+  const { data: criptoPrices, loading: criptoLoading } = useFetch(
+    "https://criptoya.com/api/usdt/ars/0.1",
+    formatCriptoPrices
+  );
 
   return (
     <div>
@@ -32,13 +33,16 @@ const Dashboard = () => {
             <div className="title">BTC</div>
           </div>
           <div className="list">
-            <PriceCard name="Binance BTC" value={btcPrice} />
+            <PriceCard
+              name="Binance BTC"
+              value={formatBtcPrice(btcPrice.price)}
+            />
           </div>
         </>
       ) : (
         <div>Loading BTC price...</div>
       )}
-      {dolarPrices.length ? (
+      {!criptoLoading ? (
         <>
           <div className="flex-row justify-between">
             <div className="title">USDT</div>
@@ -52,7 +56,7 @@ const Dashboard = () => {
       ) : (
         <div>Loading USDT price...</div>
       )}
-      {criptoPrices.length ? (
+      {!dolarLoading ? (
         <>
           <div className="flex-row justify-between">
             <div className="title">DOLAR</div>

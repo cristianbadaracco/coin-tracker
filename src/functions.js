@@ -23,3 +23,5 @@ export const formatCriptoPrices = (criptoPrices) => {
   }
   return formatedCriptoPrices;
 };
+
+export const formatBtcPrice = (btcPrice) => parseFloat(btcPrice).toFixed(2);
