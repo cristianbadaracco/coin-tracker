@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PriceCard from "../../components/PriceCard";
+import { CriptoSkeleton, DolarSkeleton, BtcSkeleton } from "./Skeletons";
 
 import {
   formatBtcPrice,
@@ -12,7 +13,7 @@ import { useFetch } from "../../hooks/useFetch";
 import "./index.css";
 
 const Dashboard = () => {
-  const { data: btcPrice } = useFetch(
+  const { data: btcPrice, loading: btcLoading } = useFetch(
     "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT"
   );
   const { data: dolarPrices, loading: dolarLoading } = useFetch(
@@ -27,49 +28,49 @@ const Dashboard = () => {
   return (
     <div>
       <div className="cotizaciones">COTIZACIONES (USD)</div>
-      {btcPrice ? (
-        <>
-          <div className="flex-row justify-between">
-            <div className="title">BTC</div>
-          </div>
+      <>
+        <div className="flex-row justify-between">
+          <div className="title">BTC</div>
+        </div>
+        {!btcLoading ? (
           <div className="list">
             <PriceCard
               name="Binance BTC"
               value={formatBtcPrice(btcPrice.price)}
             />
           </div>
-        </>
-      ) : (
-        <div>Loading BTC price...</div>
-      )}
-      {!criptoLoading ? (
-        <>
-          <div className="flex-row justify-between">
-            <div className="title">USDT</div>
-          </div>
+        ) : (
+          <BtcSkeleton />
+        )}
+      </>
+      <>
+        <div className="flex-row justify-between">
+          <div className="title">USDT</div>
+        </div>
+        {!criptoLoading ? (
           <div className="list">
             {criptoPrices.map(({ name, value }, index) => (
               <PriceCard key={index} name={name} value={value} />
             ))}
           </div>
-        </>
-      ) : (
-        <div>Loading USDT price...</div>
-      )}
-      {!dolarLoading ? (
-        <>
-          <div className="flex-row justify-between">
-            <div className="title">DOLAR</div>
-          </div>
+        ) : (
+          <CriptoSkeleton />
+        )}
+      </>
+      <>
+        <div className="flex-row justify-between">
+          <div className="title">DOLAR</div>
+        </div>
+        {!dolarLoading ? (
           <div className="list">
             {dolarPrices.map(({ name, value }, index) => (
               <PriceCard key={index} name={`dólar ${name}`} value={value} />
             ))}
           </div>
-        </>
-      ) : (
-        <div>Loading Dolar price... </div>
-      )}
+        ) : (
+          <DolarSkeleton />
+        )}
+      </>
     </div>
   );
 };
