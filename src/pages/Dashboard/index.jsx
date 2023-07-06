@@ -7,20 +7,23 @@ import { useFetchCurrencies } from "../../hooks/useFetchCurrency";
 import "./index.css";
 
 const Dashboard = () => {
-  const {
-    data: currencyPrices,
-    loading: currencyLoading,
-    fetchData,
-  } = useFetchCurrencies();
+  const { data: prices, loading, fetchData, date } = useFetchCurrencies();
 
   return (
     <div>
       <div className="cotizaciones">
-        COTIZACIONES (USD){" "}
+        <div>
+          COIN TRACKER
+          {date && (
+            <div className="date">
+              {loading ? "Uploading..." : `Last update: ${date}`}
+            </div>
+          )}
+        </div>
         <Button
           onClick={fetchData}
           variant="outlined"
-          disabled={currencyLoading}
+          disabled={loading}
           size="small"
           style={{ color: "white", borderColor: "white" }}
         >
@@ -31,9 +34,9 @@ const Dashboard = () => {
         <div className="flex-row justify-between">
           <div className="title">BTC</div>
         </div>
-        {!currencyLoading ? (
+        {!loading ? (
           <div className="list">
-            <PriceCard name="Binance BTC" value={currencyPrices["btc"]} />
+            <PriceCard name="Binance BTC" value={prices["btc"]} />
           </div>
         ) : (
           <BtcSkeleton />
@@ -43,9 +46,9 @@ const Dashboard = () => {
         <div className="flex-row justify-between">
           <div className="title">USDT</div>
         </div>
-        {!currencyLoading ? (
+        {!loading ? (
           <div className="list">
-            {currencyPrices["cripto"]?.map(({ name, value }, index) => (
+            {prices["cripto"]?.map(({ name, value }, index) => (
               <PriceCard key={index} name={name} value={value} />
             ))}
           </div>
@@ -57,9 +60,9 @@ const Dashboard = () => {
         <div className="flex-row justify-between">
           <div className="title">DOLAR</div>
         </div>
-        {!currencyLoading ? (
+        {!loading ? (
           <div className="list">
-            {currencyPrices["dolar"]?.map(({ name, value }, index) => (
+            {prices["dolar"]?.map(({ name, value }, index) => (
               <PriceCard key={index} name={`dólar ${name}`} value={value} />
             ))}
           </div>

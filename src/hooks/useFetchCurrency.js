@@ -6,12 +6,14 @@ import {
   formatBtcPrice,
   formatDolarPrices,
   formatCriptoPrices,
+  getHourAndMinutes,
 } from "../functions";
 
 export const useFetchCurrencies = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [date, setDate] = useState(null);
 
   const { dolar: selectedDolar, cripto: selectedCripto } = useSelector(
     (state) => state.filter
@@ -38,6 +40,7 @@ export const useFetchCurrencies = () => {
 
     try {
       const [data1, data2, data3] = await Promise.all(requests);
+      setDate(getHourAndMinutes(new Date()));
       setData({
         btc: formatBtcPrice(data1?.price),
         dolar: formatDolarPrices(data2, selectedDolar),
@@ -53,5 +56,5 @@ export const useFetchCurrencies = () => {
     fetchData();
   }, []);
 
-  return { data, loading, error, fetchData };
+  return { data, loading, error, fetchData, date };
 };
