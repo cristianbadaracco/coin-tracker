@@ -17,4 +17,7 @@
     font-size: 17px;
     font-weight: bold;
     padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

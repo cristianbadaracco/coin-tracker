@@ -1,66 +1,39 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-
 import PriceCard from "../../components/PriceCard";
 import { CriptoSkeleton, DolarSkeleton, BtcSkeleton } from "./Skeletons";
+import { Button } from "@mui/material";
 
-import {
-  formatBtcPrice,
-  formatDolarPrices,
-  formatCriptoPrices,
-} from "../../functions";
-
-import { useFetch } from "../../hooks/useFetch";
+import { useFetchCurrencies } from "../../hooks/useFetchCurrency";
 
 import "./index.css";
 
 const Dashboard = () => {
-  const { data: btcPrice, loading: btcLoading } = useFetch(
-    "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT"
-  );
-  const { data: dolarPrices, loading: dolarLoading } = useFetch(
-    "https://criptoya.com/api/dolar"
-  );
-  const { data: criptoPrices, loading: criptoLoading } = useFetch(
-    "https://criptoya.com/api/usdt/ars/0.1"
-  );
-
-  const [formatedDolar, setFormatedDolar] = useState([]);
-  const [formatedCripto, setFormatedCripto] = useState([]);
-  const [formatedBtc, setFormatedBtc] = useState("");
-  const { dolar: selectedDolar, cripto: selectedCripto } = useSelector(
-    (state) => state.filter
-  );
-
-  useEffect(() => {
-    if (btcPrice) {
-      setFormatedBtc(formatBtcPrice(btcPrice?.price));
-    }
-  }, [btcPrice]);
-
-  useEffect(() => {
-    if (dolarPrices) {
-      setFormatedDolar(formatDolarPrices(dolarPrices, selectedDolar));
-    }
-  }, [dolarPrices]);
-
-  useEffect(() => {
-    if (criptoPrices) {
-      setFormatedCripto(formatCriptoPrices(criptoPrices, selectedCripto));
-    }
-  }, [criptoPrices]);
+  const {
+    data: currencyPrices,
+    loading: currencyLoading,
+    fetchData,
+  } = useFetchCurrencies();
 
   return (
     <div>
-      <div className="cotizaciones">COTIZACIONES (USD)</div>
+      <div className="cotizaciones">
+        COTIZACIONES (USD){" "}
+        <Button
+          onClick={fetchData}
+          variant="outlined"
+          disabled={currencyLoading}
+          size="small"
+          style={{ color: "white", borderColor: "white" }}
+        >
+          Refresh
+        </Button>
+      </div>
       <>
         <div className="flex-row justify-between">
           <div className="title">BTC</div>
         </div>
-        {!btcLoading ? (
+        {!currencyLoading ? (
           <div className="list">
-            <PriceCard name="Binance BTC" value={formatedBtc} />
+            <PriceCard name="Binance BTC" value={currencyPrices["btc"]} />
           </div>
         ) : (
           <BtcSkeleton />
@@ -70,9 +43,9 @@ const Dashboard = () => {
         <div className="flex-row justify-between">
           <div className="title">USDT</div>
         </div>
-        {!criptoLoading ? (
+        {!currencyLoading ? (
           <div className="list">
-            {formatedCripto?.map(({ name, value }, index) => (
+            {currencyPrices["cripto"]?.map(({ name, value }, index) => (
               <PriceCard key={index} name={name} value={value} />
             ))}
           </div>
@@ -84,9 +57,9 @@ const Dashboard = () => {
         <div className="flex-row justify-between">
           <div className="title">DOLAR</div>
         </div>
-        {!dolarLoading ? (
+        {!currencyLoading ? (
           <div className="list">
-            {formatedDolar?.map(({ name, value }, index) => (
+            {currencyPrices["dolar"]?.map(({ name, value }, index) => (
               <PriceCard key={index} name={`dólar ${name}`} value={value} />
             ))}
           </div>
