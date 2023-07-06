@@ -1,4 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+
 import PriceCard from "../../components/PriceCard";
 import { CriptoSkeleton, DolarSkeleton, BtcSkeleton } from "./Skeletons";
 
@@ -17,13 +20,36 @@ const Dashboard = () => {
     "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT"
   );
   const { data: dolarPrices, loading: dolarLoading } = useFetch(
-    "https://criptoya.com/api/dolar",
-    formatDolarPrices
+    "https://criptoya.com/api/dolar"
   );
   const { data: criptoPrices, loading: criptoLoading } = useFetch(
-    "https://criptoya.com/api/usdt/ars/0.1",
-    formatCriptoPrices
+    "https://criptoya.com/api/usdt/ars/0.1"
   );
+
+  const [formatedDolar, setFormatedDolar] = useState([]);
+  const [formatedCripto, setFormatedCripto] = useState([]);
+  const [formatedBtc, setFormatedBtc] = useState("");
+  const { dolar: selectedDolar, cripto: selectedCripto } = useSelector(
+    (state) => state.filter
+  );
+
+  useEffect(() => {
+    if (btcPrice) {
+      setFormatedBtc(formatBtcPrice(btcPrice?.price));
+    }
+  }, [btcPrice]);
+
+  useEffect(() => {
+    if (dolarPrices) {
+      setFormatedDolar(formatDolarPrices(dolarPrices, selectedDolar));
+    }
+  }, [dolarPrices]);
+
+  useEffect(() => {
+    if (criptoPrices) {
+      setFormatedCripto(formatCriptoPrices(criptoPrices, selectedCripto));
+    }
+  }, [criptoPrices]);
 
   return (
     <div>
@@ -34,10 +60,7 @@ const Dashboard = () => {
         </div>
         {!btcLoading ? (
           <div className="list">
-            <PriceCard
-              name="Binance BTC"
-              value={formatBtcPrice(btcPrice.price)}
-            />
+            <PriceCard name="Binance BTC" value={formatedBtc} />
           </div>
         ) : (
           <BtcSkeleton />
@@ -49,7 +72,7 @@ const Dashboard = () => {
         </div>
         {!criptoLoading ? (
           <div className="list">
-            {criptoPrices.map(({ name, value }, index) => (
+            {formatedCripto?.map(({ name, value }, index) => (
               <PriceCard key={index} name={name} value={value} />
             ))}
           </div>
@@ -63,7 +86,7 @@ const Dashboard = () => {
         </div>
         {!dolarLoading ? (
           <div className="list">
-            {dolarPrices.map(({ name, value }, index) => (
+            {formatedDolar?.map(({ name, value }, index) => (
               <PriceCard key={index} name={`dólar ${name}`} value={value} />
             ))}
           </div>

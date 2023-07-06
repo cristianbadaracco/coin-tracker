@@ -1,10 +1,7 @@
-const defaultDolarFilters = ["oficial", "blue", "mep", "ccl", "qatar"];
-const defaultCriptoFilters = ["buenbit", "lemoncash", "binance"];
-
-export const formatDolarPrices = (dolarPrices) => {
+export const formatDolarPrices = (dolarPrices, defaultDolarFilters) => {
   let formatedDolarPrices = [];
   for (const [key, value] of Object.entries(dolarPrices)) {
-    if (defaultDolarFilters.includes(key)) {
+    if (defaultDolarFilters && defaultDolarFilters.includes(key)) {
       formatedDolarPrices.push({
         name: key,
         value,
@@ -14,10 +11,10 @@ export const formatDolarPrices = (dolarPrices) => {
   return formatedDolarPrices;
 };
 
-export const formatCriptoPrices = (criptoPrices) => {
+export const formatCriptoPrices = (criptoPrices, defaultCriptoFilters = []) => {
   const formatedCriptoPrices = [];
   for (const [key, values] of Object.entries(criptoPrices)) {
-    if (defaultCriptoFilters.includes(key)) {
+    if (defaultCriptoFilters && defaultCriptoFilters.includes(key)) {
       formatedCriptoPrices.push({ name: key, value: values.totalBid });
     }
   }

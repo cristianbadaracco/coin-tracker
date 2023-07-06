@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = (url, formatFunction) => {
+export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ export const useFetch = (url, formatFunction) => {
           throw new Error("Request failed");
         }
         const json = await response.json();
-        setData(formatFunction ? formatFunction(json) : json);
+        setData(json);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -22,7 +22,7 @@ export const useFetch = (url, formatFunction) => {
     };
 
     fetchData();
-  }, [url, formatFunction]);
+  }, [url]);
 
   return { data, loading, error };
 };
