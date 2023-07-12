@@ -2,6 +2,8 @@ import PriceCard from "../../components/PriceCard";
 import { CriptoSkeleton, DolarSkeleton, BtcSkeleton } from "./Skeletons";
 import { Button } from "@mui/material";
 
+import DolarSelect from "../../components/Select/DolarSelect";
+
 import { useFetchCurrencies } from "../../hooks/useFetchCurrency";
 
 import "./index.css";
@@ -59,6 +61,7 @@ const Dashboard = () => {
       <>
         <div className="flex-row justify-between">
           <div className="title">DOLAR</div>
+          <DolarSelect />
         </div>
         {!loading ? (
           <div className="list">
