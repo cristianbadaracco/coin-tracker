@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -14,10 +14,17 @@ export const useFetchCurrencies = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [date, setDate] = useState(null);
-
   const { dolar: selectedDolar, cripto: selectedCripto } = useSelector(
     (state) => state.filter
   );
+
+  const formatPrices = (btc, dolar, cripto) => {
+    return {
+      btc: formatBtcPrice(btc.price),
+      dolar: formatDolarPrices(dolar, selectedDolar),
+      cripto: formatCriptoPrices(cripto, selectedCripto),
+    };
+  };
 
   const fetchData = async () => {
     const urls = [
@@ -41,11 +48,7 @@ export const useFetchCurrencies = () => {
     try {
       const [data1, data2, data3] = await Promise.all(requests);
       setDate(getHourAndMinutes(new Date()));
-      setData({
-        btc: formatBtcPrice(data1?.price),
-        dolar: formatDolarPrices(data2, selectedDolar),
-        cripto: formatCriptoPrices(data3, selectedCripto),
-      });
+      setData(formatPrices(data1, data2, data3));
     } catch (error) {
       setError(error);
     }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -6,8 +7,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
-import { useFilterStore } from "../../hooks/useFilterStore";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,7 +30,9 @@ function getStyles(name, selected, theme) {
 
 const DolarSelect = () => {
   const theme = useTheme();
-  const { dolar, allTypesOfDolars, toogleFilterAction } = useFilterStore();
+  const { dolar, allTypesOfDolars, toogleFilterAction } = useSelector(
+    (state) => state.filter
+  );
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
