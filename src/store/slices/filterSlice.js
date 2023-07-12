@@ -59,8 +59,8 @@ const filterSlice = createSlice({
     clearFilters(state) {
       (state.dolar = []), (state.cripto = []);
     },
-    toogleFilter(state, { payload }) {
-      const { selectedFilter, type } = payload;
+    toogleFilter(state, action) {
+      const { selectedFilter, type } = action.payload;
       state[type] = selectedFilter;
     },
   },

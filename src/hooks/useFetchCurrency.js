@@ -56,8 +56,10 @@ export const useFetchCurrencies = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (selectedDolar && selectedCripto) {
+      fetchData();
+    }
+  }, [selectedDolar, selectedCripto]);
 
   return { data, loading, error, fetchData, date };
 };
