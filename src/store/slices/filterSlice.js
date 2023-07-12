@@ -1,34 +1,71 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  data: {},
   dolar: ["oficial", "blue", "mep", "ccl", "qatar"],
   cripto: ["buenbit", "lemoncash", "binance"],
+  allTypesOfDolars: [
+    "oficial",
+    "solidario",
+    "blue",
+    "ccb",
+    "mep",
+    "ccl",
+    "mepgd30",
+    "cclgd30",
+    "blue_bid",
+    "qatar",
+    "mep_var",
+    "ccl_var",
+    "ccb_var",
+    "blue_var",
+    "time",
+  ],
+  allTypesOfCriptos: [
+    "argenbtc",
+    "buenbit",
+    "ripio",
+    "ripioexchange",
+    "satoshitango",
+    "cryptomkt",
+    "decrypto",
+    "latamex",
+    "bitso",
+    "letsbit",
+    "fiwind",
+    "lemoncash",
+    "bitmonedero",
+    "belo",
+    "tiendacrypto",
+    "saldo",
+    "kriptonmarket",
+    "calypso",
+    "bybit",
+    "binance",
+  ],
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    loadAllFilters(state, action) {
-      const { values, type } = action.payload;
+    loadData(state, { payload }) {
+      state.data = payload;
+    },
+    loadAllFilters(state, { payload }) {
+      const { values, type } = payload;
       state[type] = values;
     },
     clearFilters(state) {
       (state.dolar = []), (state.cripto = []);
     },
-    tootleFilter(state, action) {
-      const { filters, selectedFilter, type } = action.payload;
-      let newFilter = filters;
-      if (newFilter.includes(selectedFilter)) {
-        newFilter = filters.filter((filter) => filter !== selectedFilter);
-      } else {
-        newFilter.push(selectedFilter);
-      }
-      state[type] = newFilter;
+    toogleFilter(state, { payload }) {
+      const { selectedFilter, type } = payload;
+      state[type] = selectedFilter;
     },
   },
 });
 
-export const { loadAllFilters, clearFilters, addFilter, removeFilter } =
+export const { loadAllFilters, clearFilters, toogleFilter, loadData } =
   filterSlice.actions;
 export default filterSlice.reducer;
