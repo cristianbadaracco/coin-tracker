@@ -31,8 +31,6 @@ const manifestForPlugin = {
         type: "image/png",
       },
     ],
-    theme_color: "#f69435",
-    background_color: "#f69435",
     display: "standalone",
     scope: "/",
     start_url: "/",

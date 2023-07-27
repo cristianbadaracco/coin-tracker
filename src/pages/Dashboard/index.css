@@ -9,7 +9,7 @@
     font-size: 14px;
     font-weight: bold;
     margin: 10px 7px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid var(--primary);
     padding-bottom: 5px;
 }
 
